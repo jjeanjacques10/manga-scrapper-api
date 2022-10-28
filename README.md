@@ -25,9 +25,9 @@ SQS Message
 
 ## Endpoints
 
-```http
-  GET /page
-```
+- Get a single chapter page
+
+`GET /page`
 
 | Query Param   | Type       | Description                           |
 | :---------- | :--------- | :---------------------------------- |
@@ -36,9 +36,9 @@ SQS Message
 | `number` | `string` | **Required**. chapter number |
 | `page` | `string` | **Required**. page number |
 
-```http
-  POST /page
-```
+- Save a single chapter page on EBS
+
+`POST /page`
 
 | Form   | Type       | Description                           |
 | :---------- | :--------- | :---------------------------------- |
@@ -48,9 +48,9 @@ SQS Message
 | `page` | `string` | **Required**. number of pages |
 | `image` | `file` | **Required**. image file |
 
-```http
-  GET /chapter
-```
+- Get a chapter
+
+`GET /chapter`
 
 | Query Param   | Type       | Description                           |
 | :---------- | :--------- | :---------------------------------- |
