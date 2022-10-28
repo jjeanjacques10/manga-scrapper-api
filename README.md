@@ -1,6 +1,6 @@
 # Manga Page Scraper
 
-This is a simple script to scrape manga pages from a websites and save them to a folder on AWS EC2 instance.
+This is a simple script to scrape manga pages from a websites and save them to a folder on AWS EC2 instance. There is an api and a consumer, the api is a Flask app that takes a chapter from a manga and if not already scraped, send a message to the consumer SQS to scrape the pages.
 
 ## SQS Queue
 
@@ -28,7 +28,7 @@ SQS Message
 | `page` | `string` | **Required**. page number |
 
 ```http
-  POST /manga
+  POST /page
 ```
 
 | Form   | Type       | Description                           |
@@ -38,6 +38,29 @@ SQS Message
 | `number` | `string` | **Required**. chapter number |
 | `page` | `string` | **Required**. number of pages |
 | `image` | `file` | **Required**. image file |
+
+```http
+  GET /chapter
+```
+
+| Query Param   | Type       | Description                           |
+| :---------- | :--------- | :---------------------------------- |
+| `source` | `string` | **Required**. manga_livre or muito_manga |
+| `manga` | `string` | **Required**. manga name |
+| `number` | `string` | **Required**. chapter number |
+
+## Sites Supported
+
+- [Manga Livre](https://mangalivre.net/)
+- [Muito Manga](https://muitomanga.com/)
+
+## Architecture
+
+<img src="./files/diagram.jpg" width=600>
+
+## Licença
+
+[MIT](https://choosealicense.com/licenses/mit/)
 
 ---
 Developed by [Jean Jacques Barros](https://github.com/jeanjacques10)
