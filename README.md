@@ -1,5 +1,14 @@
 # Manga Page Scraper
 
+<p align="center">
+    <img src="https://raw.githubusercontent.com/jjeanjacques10/mangajj/main/files/MangaJJLogo.jpg" width="300"/>
+    <br />
+    <br />
+    <a href="https://github.com/jjeanjacques10/manga-scrapper-api/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/jjeanjacques10/manga-scrapper-api/issues">Request Feature</a>
+</p>
+
 This is a simple script to scrape manga pages from a websites and save them to a folder on AWS EC2 instance. There is an api and a consumer, the api is a Flask app that takes a chapter from a manga and if not already scraped, send a message to the consumer SQS to scrape the pages.
 
 ## SQS Queue
