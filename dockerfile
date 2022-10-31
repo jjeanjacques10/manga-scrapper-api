@@ -1,5 +1,9 @@
 FROM python:3
 
+ARG AWS_ACCESS_KEY_ID
+ARG AWS_SECRET_ACCESS_KEY
+ARG AWS_DEFAULT_REGION
+
 # Create a workdir for our app
 WORKDIR /usr/src/app
 COPY . /usr/src/app
