@@ -73,4 +73,3 @@ SQS Message
 
 ---
 Developed by [Jean Jacques Barros](https://github.com/jeanjacques10)
-
