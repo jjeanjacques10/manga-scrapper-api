@@ -24,14 +24,16 @@ jobs:
         run: |
           aws ec2 authorize-security-group-ingress --group-id ${{ env.AWS_SECURITY_GROUP }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/16
           sleep 10
-      - name: Deploy on AWS EC2
+      - name: Create Private Key
         env:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY  }}
+        run: 'echo "${{ secrets.SSH_PRIVATE_KEY  }}" > private_key.pem && chmod 600 private_key.pem'
+      - name: Deploy on AWS EC2
+        env:
           HOSTNAME: ${{ secrets.HOSTNAME  }}
           USER_NAME: ${{ secrets.USERNAME  }}
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY  }}" > private_key.pem && chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${USER_NAME}@${HOSTNAME} '
             rm -rf /home/ubuntu/<your-repo-name>
             git clone <your-repo-link>.git
