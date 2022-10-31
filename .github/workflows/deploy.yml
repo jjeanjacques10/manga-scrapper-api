@@ -40,8 +40,8 @@ jobs:
             cd manga-scrapper-api
             git checkout main
             git pull origin main
-            sudo chmod +x ./deploy.sh
-            ./deploy.sh
+            sudo chmod +x ./app.sh
+            ./app.sh
           '
           rm -rf private_key.pem
       - name: Remove github actions IP from security group
