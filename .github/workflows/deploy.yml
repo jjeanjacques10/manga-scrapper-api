@@ -31,7 +31,7 @@ jobs:
           USER_NAME: ${{ secrets.USERNAME  }}
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
+          echo "${{ secrets.SSH_PRIVATE_KEY  }}" > private_key.pem && chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${USER_NAME}@${HOSTNAME} '
             rm -rf /home/ubuntu/<your-repo-name>
             git clone <your-repo-link>.git
