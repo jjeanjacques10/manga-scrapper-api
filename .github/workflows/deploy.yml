@@ -46,7 +46,7 @@ jobs:
             git checkout main
             git pull origin main
             sudo chmod +x ./app.sh
-            ./app.sh
+            ./app.sh ${{ secrets.AWS_ACCESS_KEY_ID  }} ${{ secrets.AWS_SECRET_ACCESS_KEY }} ${{ secrets.AWS_DEFAULT_REGION }}
           '
           rm -rf private_key.pem
 

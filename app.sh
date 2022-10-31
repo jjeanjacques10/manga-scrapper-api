@@ -21,12 +21,12 @@ sudo cp nginx.conf /etc/nginx/conf.d/default.conf
 sudo systemctl restart nginx
 
 # build dockerfile
-sudo docker build --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
-    --build-arg AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
-    --build-arg AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION \
+sudo docker build --build-arg AWS_ACCESS_KEY_ID=$1 \
+    --build-arg AWS_SECRET_ACCESS_KEY=$2 \
+    --build-arg AWS_DEFAULT_REGION=$3 \
     -f dockerfile -t manga-scrapper:latest .
 
-echo 'AWS default region: ' $AWS_DEFAULT_REGION
+echo 'AWS default region: ' $3
 
 # run in detached mode
 sudo docker run -p 3000:3000 -d manga-scrapper:latest
