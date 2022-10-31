@@ -21,7 +21,7 @@ sudo cp nginx.conf /etc/nginx/conf.d/default.conf
 sudo systemctl restart nginx
 
 # build dockerfile
-sudo docker build -f Dockerfile -t manga-scrapper:latest .
+sudo docker build -f dockerfile -t manga-scrapper:latest .
 
 # run in detached mode
 sudo docker run -p 3000:3000 -d manga-scrapper:latest
@@ -29,3 +29,5 @@ sudo docker run -p 3000:3000 -d manga-scrapper:latest
 sleep 15
 
 PORT=3000
+
+echo 'Deployment completed successfully'
