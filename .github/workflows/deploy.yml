@@ -35,9 +35,9 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${USER_NAME}@${HOSTNAME} '
-            rm -rf /home/ubuntu/<your-repo-name>
-            git clone <your-repo-link>.git
-            cd <your-repo>
+            rm -rf /home/ubuntu/manga-scrapper-api
+            git clone https://github.com/jjeanjacques10/manga-scrapper-api.git
+            cd manga-scrapper-api
             git checkout master
             git pull origin master
             sudo chmod +x ./deploy.sh
