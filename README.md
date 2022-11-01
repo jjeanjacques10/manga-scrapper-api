@@ -67,6 +67,28 @@ SQS Message
 
 <img src="./files/diagram.jpg" width=600>
 
+## GitHub Actions
+
+- Variables to be set in the repository secrets
+
+``` bash
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=
+AWS_SECURITY_GROUP =
+SSH_PRIVATE_KEY=
+HOSTNAME=
+USERNAME=
+```
+
+- Workflow to deploy to EC2 instance
+
+> [.github/workflows/deploy.yml](.github/workflows/deploy.yml)
+
+- Script to config the EC2 instance, install docker, update nginx and run the container
+
+> [app.sh](app.sh)
+
 ## Licença
 
 [MIT](https://choosealicense.com/licenses/mit/)
