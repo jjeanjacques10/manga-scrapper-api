@@ -24,7 +24,7 @@ sudo systemctl restart nginx
 sudo docker build --build-arg AWS_ACCESS_KEY_ID=$1 \
     --build-arg AWS_SECRET_ACCESS_KEY=$2 \
     --build-arg AWS_DEFAULT_REGION=$3 \
-    -f dockerfile -t manga-scrapper:latest .
+    -f dockerfile -t manga-scrapper:latest --no-cache .
 
 echo 'AWS default region: ' $3
 
