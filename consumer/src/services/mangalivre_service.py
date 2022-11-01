@@ -1,12 +1,8 @@
 import json
-import logging
 import os
 import re
 
 import requests
-
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
 
 headers = {
     'authority': 'mangalivre.net',
@@ -50,16 +46,16 @@ def search_manga(name):
         'x-requested-with': 'XMLHttpRequest'
     }
 
-    logger.info(payload)
+    print(payload)
     response = requests.post(url, headers=headers, data=payload)
-    logger.info(response.text)
+    print(response.text)
 
     return response.json().get("series")
 
 
 def get_chapter(id_serie, number_chapter, page=1):
     url = f"https://mangalivre.net/series/chapters_list.json?page={page}&id_serie={id_serie}"
-    logger.info(url)
+    print(url)
     headers = {
         'sec-ch-ua': '"Chromium";v="106", "Microsoft Edge";v="106", "Not;A=Brand";v="99"',
         'Accept': 'application/json, text/javascript, */*; q=0.01',
@@ -81,10 +77,10 @@ def get_chapter(id_serie, number_chapter, page=1):
                         release_scan).get("link")
             return get_chapter(id_serie, number_chapter, page + 1)
         else:
-            logger.error(
+            print(
                 f"Capítulo {number_chapter} não encontrado - " + response.text)
     except Exception as e:
-        logger.error(f"Erro para encontrar capítulo {number_chapter} - {e}")
+        print(f"Erro para encontrar capítulo {number_chapter} - {e}")
 
 
 def get_key(link):
@@ -121,18 +117,18 @@ def save_chapter_pages(manga_name, chapter_number, pages):
 
 
 def get_manga_from_mangalivre(name, chapter):
-    logger.info(f"Searching Manga {name}")
+    print(f"Searching Manga {name}")
     mangas = search_manga(name)
-    logger.info(json.dumps(mangas, indent=4))
+    print(json.dumps(mangas, indent=4))
     if not mangas:
-        logger.error("Manga não encontrado")
+        print("Manga não encontrado")
         raise Exception("Manga não encontrado")
 
     id_serie = mangas.pop(0).get("id_serie")
-    logger.info(f"ID da série: {id_serie}")
+    print(f"ID da série: {id_serie}")
 
     id_release, link = get_chapter(id_serie, chapter)
-    logger.info(f"ID da release: {id_release} - Link: {link}")
+    print(f"ID da release: {id_release} - Link: {link}")
 
     key = get_key(link)
 

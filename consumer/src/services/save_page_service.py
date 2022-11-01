@@ -17,7 +17,7 @@ def upload_chapter_pages(manga_name, chapter_number):
         # Get the image path
         img_path = os.path.join(folder, img)
 
-        url = "http://ec2-34-205-33-213.compute-1.amazonaws.com/page"
+        url = "http://ec2-3-86-242-92.compute-1.amazonaws.com/page"
 
         payload = {
             'source': 'manga_livre',

@@ -20,10 +20,10 @@ def process_message(event):
 
 def process_manga_chapter(source, manga, chapter):
     if source == "manga_livre":
-        logger.info(f"Mangalivre - {manga}")
+        print(f"Mangalivre - {manga}")
         get_manga_from_mangalivre(manga, chapter)
     elif source == "muito_manga":
-        logger.info(f"Muitomanga - {manga}")
+        print(f"Muitomanga - {manga}")
         get_manga_from_muitomanga(manga, chapter)
     else:
         raise Exception("Invalid option")
