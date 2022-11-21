@@ -89,6 +89,16 @@ USERNAME=
 
 > [app.sh](app.sh)
 
+## Run Locally
+
+Use docker-compose to run both the api and the consumer
+
+``` bash
+docker-compose up --build --scale manga_consumer=10 -d
+```
+
+```--scale manga_consumer=10``` will run 10 consumers in parallel
+
 ## Licença
 
 [MIT](https://choosealicense.com/licenses/mit/)
