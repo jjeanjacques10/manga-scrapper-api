@@ -20,6 +20,8 @@ sudo cp nginx.conf /etc/nginx/conf.d/default.conf
 
 sudo systemctl restart nginx
 
+cd app
+
 # build dockerfile
 sudo docker build --build-arg AWS_ACCESS_KEY_ID=$1 \
     --build-arg AWS_SECRET_ACCESS_KEY=$2 \

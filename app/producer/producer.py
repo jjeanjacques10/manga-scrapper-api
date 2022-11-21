@@ -1,7 +1,8 @@
+import os
 import boto3
 import json
 
-sqs = boto3.resource('sqs')
+sqs = boto3.resource('sqs', endpoint_url=os.environ.get("SQS_ENDPOINT"))
 
 
 def send_message(message):

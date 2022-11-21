@@ -6,6 +6,8 @@ from producer.producer import send_message
 
 app = Flask(__name__)
 
+HOST_API = os.environ.get("HOST_API", "http://localhost:3000")
+
 
 @app.route("/page", methods=["POST"])
 def save_page():
@@ -22,11 +24,11 @@ def save_page():
 
     image = request.files["image"]
 
-    folder = os.path.join("images", source, manga, number)
+    folder = os.path.join("mangas", manga, number)
     if not os.path.exists(folder):
         os.makedirs(folder)
 
-    image.save(os.path.join(folder, f"{page}.jpg"))
+    image.save(os.path.join(folder, f"{page}.{'png' if source == 'manga_livre' else 'jpg'}"))
     return {
         "message": "Image saved"
     }, 201
@@ -45,11 +47,11 @@ def get_page():
     if not source or not manga or not number:
         return {"message": "Invalid request"}, 422
 
-    folder = os.path.join("images", source, manga, number)
+    folder = os.path.join("mangas", manga, number)
     if not os.path.exists(folder):
         return {"message": "Page not found"}, 404
 
-    image = open(os.path.join(folder, f"{page}.jpg"), "rb")
+    image = open(os.path.join(folder, f"{page}.{'png' if source == 'manga_livre' else 'jpg'}"), "rb")
 
     return send_file(image, mimetype='image/jpeg'), 200
 
@@ -66,7 +68,7 @@ def get_all_chapter_pages():
     if not source or not manga or not number:
         return {"message": "Invalid request"}, 422
 
-    folder = os.path.join("images", source, manga, number)
+    folder = os.path.join("mangas", manga, number)
     if not os.path.exists(folder):
         send_message({
             "source": source,
@@ -79,7 +81,7 @@ def get_all_chapter_pages():
 
     for i, img in enumerate(images):
         images[
-            i] = f"/page?source={source}&manga={manga}&number={number}&page={img.split('.')[0]}"
+            i] = f"{HOST_API}/page?source={source}&manga={manga}&number={number}&page={img.split('.')[0]}"
 
     return {
         "manga": manga,

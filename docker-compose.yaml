@@ -1,6 +1,48 @@
 version: '3.1'
 services:
+  sqs:
+    container_name: sqs
+    image: localstack/localstack:latest
+    restart: always
+    environment:
+      - AWS_DEFAULT_REGION=us-east-1
+      - EDGE_PORT=4576
+      - SERVICES=sqs
+      - HOSTNAME=localhost
+      - HOSTNAME_EXTERNAL=sqs
+      - AWS_ACCESS_KEY_ID=admin
+      - AWS_SECRET_ACCESS_KEY=admin
+    ports:
+      - '4576:4576'
+    volumes:
+      - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - ./environment/:/docker-entrypoint-initaws.d/
   manga_app:
-    build: .
+    build: ./app
+    depends_on:
+      - sqs
     ports:
       - "3000:3000"
+    volumes:
+      - manga_data:/usr/src/app/mangas
+    environment:
+      - AWS_ACCESS_KEY_ID=admin
+      - AWS_SECRET_ACCESS_KEY=admin
+      - AWS_DEFAULT_REGION=us-east-1
+      - SQS_ENDPOINT=http://sqs:4576
+  manga_consumer:
+    build: ./consumer
+    depends_on:
+      - sqs
+      - manga_app
+    volumes:
+      - manga_data:/usr/src/app/mangas
+    environment:
+      - AWS_ACCESS_KEY_ID=admin
+      - AWS_SECRET_ACCESS_KEY=admin
+      - AWS_DEFAULT_REGION=us-east-1
+      - SQS_ENDPOINT=http://sqs:4576
+
+volumes:
+  manga_data:

@@ -1,12 +1,12 @@
 
+import os
 from time import sleep
 import boto3
 import json
 
 from src.app import process_message
 
-sqs = boto3.resource('sqs')
-
+sqs = boto3.resource('sqs', endpoint_url=os.environ.get("SQS_ENDPOINT"))
 
 queue = sqs.get_queue_by_name(QueueName='manga-queue')
 
