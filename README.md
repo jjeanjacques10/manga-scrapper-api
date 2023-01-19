@@ -1,4 +1,4 @@
-# Manga Page Scraper
+# Manga Page Scrapper
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/jjeanjacques10/mangajj/main/files/MangaJJLogo.jpg" width="300"/>
