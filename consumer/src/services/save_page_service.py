@@ -3,12 +3,14 @@ import os
 import requests
 import logging
 
+from src.utils.manga_utils import get_folder_name
+
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
 def upload_chapter_pages(manga_name, chapter_number):
-    folder = f"mangas/{manga_name}/{chapter_number}"
+    folder = get_folder_name(manga_name, chapter_number)
 
     # Get all images in the folder
     images = os.listdir(folder)

@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request, send_file
 from flask_cors import CORS
+from utils.manga_utils import get_folder_name
 
 from producer.producer import send_message
 
@@ -17,6 +18,9 @@ def save_page():
     number = request.form.get("number", None)
     page = request.form.get("page", "1")
 
+    # remove characters that are not numbers from page
+    page = ''.join(filter(str.isdigit, page))
+
     print(source, manga, number, page)
 
     if not source or not manga or not number:
@@ -24,7 +28,7 @@ def save_page():
 
     image = request.files["image"]
 
-    folder = os.path.join("mangas", manga, number)
+    folder = get_folder_name(manga, number)
     if not os.path.exists(folder):
         os.makedirs(folder)
 
@@ -47,11 +51,15 @@ def get_page():
     if not source or not manga or not number:
         return {"message": "Invalid request"}, 422
 
-    folder = os.path.join("mangas", manga, number)
+    folder = get_folder_name(manga, number)
     if not os.path.exists(folder):
         return {"message": "Page not found"}, 404
 
-    image = open(os.path.join(folder, f"{page}.{'png' if source == 'manga_livre' else 'jpg'}"), "rb")
+    # try png first then jpg
+    try:
+        image = open(os.path.join(folder, f"{page}.{'png' if source == 'manga_livre' else 'jpg'}"), "rb")
+    except FileNotFoundError:
+        image  = open(os.path.join(folder, f"{page}.{'jpg' if source == 'manga_livre' else 'png'}"), "rb")
 
     return send_file(image, mimetype='image/jpeg'), 200
 
@@ -68,7 +76,7 @@ def get_all_chapter_pages():
     if not source or not manga or not number:
         return {"message": "Invalid request"}, 422
 
-    folder = os.path.join("mangas", manga, number)
+    folder = get_folder_name(manga, number)
     if not os.path.exists(folder):
         send_message({
             "source": source,

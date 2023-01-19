@@ -6,6 +6,8 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
+from src.utils.manga_utils import get_folder_name
+
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
@@ -54,7 +56,7 @@ def download_page(manga_name, chapter_number, page):
     response = requests.get(url)
 
     # Create folder if not exists
-    folder = f"mangas/{manga_name}/{chapter_number}"
+    folder = get_folder_name(manga_name, chapter_number)
     if not os.path.exists(folder):
         os.makedirs(folder)
 

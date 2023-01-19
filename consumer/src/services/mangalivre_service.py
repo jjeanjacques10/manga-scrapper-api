@@ -4,6 +4,8 @@ import re
 
 import requests
 
+from src.utils.manga_utils import get_folder_name
+
 headers = {
     'authority': 'mangalivre.net',
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -46,9 +48,7 @@ def search_manga(name):
         'x-requested-with': 'XMLHttpRequest'
     }
 
-    print(payload)
     response = requests.post(url, headers=headers, data=payload)
-    print(response.text)
 
     return response.json().get("series")
 
@@ -86,7 +86,7 @@ def get_chapter(id_serie, number_chapter, page=1):
 def get_key(link):
     url = f"https://mangalivre.net{link}"
     response = requests.get(url, headers=headers, data={})
-    key_trash = re.findall(r'this\.page\.identifier = "(.+)"', response.text)
+    key_trash = re.findall(r'window\.READER_TOKEN = \'(.+)\';', response.text)
     key = key_trash[0]
     return key
 
@@ -102,7 +102,7 @@ def get_page(id_release, key):
 
 def save_chapter_pages(manga_name, chapter_number, pages):
     # Create folder if not exists
-    folder = f"mangas/{manga_name}/{chapter_number}"
+    folder = get_folder_name(manga_name, chapter_number)
     if not os.path.exists(folder):
         os.makedirs(folder)
 
@@ -119,7 +119,6 @@ def save_chapter_pages(manga_name, chapter_number, pages):
 def get_manga_from_mangalivre(name, chapter):
     print(f"Searching Manga {name}")
     mangas = search_manga(name)
-    print(json.dumps(mangas, indent=4))
     if not mangas:
         print("Manga não encontrado")
         raise Exception("Manga não encontrado")
