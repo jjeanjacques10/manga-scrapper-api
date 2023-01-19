@@ -62,7 +62,7 @@ def download_page(manga_name, chapter_number, page):
 
     if response.status_code == 200:
         print(f"Downloading {manga_name} {chapter_number} page {page}")
-        with open(f"{folder}/{page}.jpg", "wb") as f:
+        with open(f"{folder}/{''.join(filter(str.isdigit, page))}.jpg", "wb") as f:
             f.write(response.content)
         return url
     else:

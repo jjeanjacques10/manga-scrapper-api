@@ -110,7 +110,8 @@ def save_chapter_pages(manga_name, chapter_number, pages):
         print(f"Downloading {page}")
         response = requests.get(page, headers=headers, data={})
         if response.status_code == 200:
-            with open(f"{folder}/{page.split('/')[-1]}", 'wb') as f:
+            page_number = ''.join(filter(str.isdigit, page.split('/')[-1]))
+            with open(f"{folder}/{page_number}.jpg", 'wb') as f:
                 f.write(response.content)
         else:
             print(f"Erro ao baixar página {page} - " + response.text)
