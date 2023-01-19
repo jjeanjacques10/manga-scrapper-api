@@ -15,7 +15,7 @@ services:
     ports:
       - '4576:4576'
     volumes:
-      - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
       - ./environment/:/docker-entrypoint-initaws.d/
   manga_app:
