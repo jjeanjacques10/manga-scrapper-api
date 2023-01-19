@@ -13,7 +13,7 @@ def process_message(event):
     chapter = str(event.get('chapter', None))
     try:
         process_manga_chapter(source, manga, chapter)
-        upload_chapter_pages(manga, chapter)
+        # upload_chapter_pages(manga, chapter)
     except Exception as e:
         print(e)
 
