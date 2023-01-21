@@ -32,7 +32,7 @@ sudo docker build --build-arg AWS_ACCESS_KEY_ID=$1 \
 echo 'AWS default region: ' $3
 
 # run in detached mode
-sudo docker run -p 3000:3000 -d manga-scrapper:latest
+sudo docker run -p 3000:3000 -v /home/ubuntu/mangas:/usr/src/app/mangas -d manga-scrapper:latest
 
 sleep 15
 
