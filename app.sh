@@ -26,6 +26,7 @@ cd app
 sudo docker build --build-arg AWS_ACCESS_KEY_ID=$1 \
     --build-arg AWS_SECRET_ACCESS_KEY=$2 \
     --build-arg AWS_DEFAULT_REGION=$3 \
+    --build-arg API_HOST=$4 \
     -f dockerfile -t manga-scrapper:latest --no-cache .
 
 echo 'AWS default region: ' $3
