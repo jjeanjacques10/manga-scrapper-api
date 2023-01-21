@@ -7,7 +7,7 @@ from producer.producer import send_message
 
 app = Flask(__name__)
 
-HOST_API = os.environ.get("HOST_API", "http://localhost:3000")
+HOST_API = os.environ.get("API_HOST", "http://localhost:3000")
 
 
 @app.route("/page", methods=["POST"])
