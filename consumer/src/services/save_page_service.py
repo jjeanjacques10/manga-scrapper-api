@@ -36,6 +36,6 @@ def upload_chapter_pages(manga_name, chapter_number):
             "POST", url, headers=headers, data=payload, files=files)
 
         if response.status_code != 201:
-            logger.error(f"Error uploading image {img}")
+            logger.error(f"Error uploading image {img} - {response.text}")
 
     logger.info(f"Chapter {chapter_number} uploaded")
