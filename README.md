@@ -103,5 +103,9 @@ docker-compose up --build --scale manga_consumer=10 -d
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
+## ⚠ Atention ⚠
+
+This project is for study purposes only, I do not encourage piracy. If you like the manga, buy it. If you want to read it for free, go to the official website. I am not responsible for any misuse of this project.
+
 ---
 Developed by [Jean Jacques Barros](https://github.com/jeanjacques10)
