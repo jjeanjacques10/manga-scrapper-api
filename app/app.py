@@ -13,7 +13,6 @@ CORS(app)
 HOST_API = os.environ.get("API_HOST", "http://localhost:3000")
 
 logger = logging.getLogger()
-logger.setLevel(logging.INFO)
 
 
 @app.route("/page", methods=["POST"])
