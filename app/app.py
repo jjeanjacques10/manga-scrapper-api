@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request, send_file
 from flask_cors import CORS
+from src.services.manga_service import MangaService
 from utils.manga_utils import get_folder_name
 
 from src.producer.producer import send_message
@@ -76,20 +77,12 @@ def get_all_chapter_pages():
     if not source or not manga or not number:
         return {"message": "Invalid request"}, 422
 
-    folder = get_folder_name(manga, number)
-    if not os.path.exists(folder):
-        send_message({
-            "source": source,
-            "manga": manga,
-            "chapter": number
-        })
+    mangaService = MangaService()
+
+    images = mangaService.get_chapter(source, manga, number)
+
+    if not images:
         return {"message": "Chapter not found"}, 404
-
-    images = os.listdir(folder)
-
-    for i, img in enumerate(images):
-        images[
-            i] = f"{HOST_API}/page?source={source}&manga={manga}&number={number}&page={img.split('.')[0]}"
 
     return {
         "manga": manga,

@@ -21,9 +21,9 @@ def process_message(event):
 def process_manga_chapter(source, manga, chapter):
     if source == "manga_livre":
         print(f"Mangalivre - {manga}")
-        get_manga_from_mangalivre(manga, chapter)
+        get_manga_from_mangalivre(manga, chapter, save_pages=True)
     elif source == "muito_manga":
         print(f"Muitomanga - {manga}")
-        get_manga_from_muitomanga(manga, chapter)
+        get_manga_from_muitomanga(manga, chapter, save_pages=True)
     else:
         raise Exception("Invalid option")

@@ -70,7 +70,7 @@ def download_page(manga_name, chapter_number, page):
         return
 
 
-def get_manga_from_muitomanga(name, chapter):
+def get_manga_from_muitomanga(name, chapter, save_pages=False):
     mangas = search_manga(name.replace(" ", "+"))
 
     if len(mangas) == 0:
