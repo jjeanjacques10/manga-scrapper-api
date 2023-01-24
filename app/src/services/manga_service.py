@@ -19,7 +19,7 @@ class MangaService:
                 "manga": manga,
                 "chapter": chapter
             })
-            return self.get_chapter_from_internet(source, manga, chapter)
+            return None
 
         images = os.listdir(folder)
 
