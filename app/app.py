@@ -79,7 +79,7 @@ def get_all_chapter_pages():
 
     mangaService = MangaService()
 
-    images = mangaService.get_chapter(source, manga, number)
+    images = mangaService.get_chapter_local(source, manga, number)
 
     if not images:
         return {"message": "Chapter not found"}, 404

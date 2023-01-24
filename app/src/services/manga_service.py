@@ -6,12 +6,13 @@ from utils.manga_utils import get_folder_name
 
 HOST_API = os.environ.get("API_HOST", "http://localhost:3000")
 
+
 class MangaService:
 
     def __init__(self) -> None:
         pass
 
-    def get_chapter(self, source: str, manga: str, chapter: str):
+    def get_chapter_local(self, source: str, manga: str, chapter: str):
         folder = get_folder_name(manga, chapter)
         if not os.path.exists(folder):
             send_message({
@@ -28,12 +29,12 @@ class MangaService:
                 i] = f"{HOST_API}/page?source={source}&manga={manga}&number={chapter}&page={img.split('.')[0]}"
         return images
 
-
-    def get_chapter_from_internet(self, source: str, manga: str, chapter: str):
+    def get_chapter_from_internet(self, source: str, manga: str, chapter: str, save_pages: bool):
         if source == "manga_livre":
             print(f"Mangalivre - {manga}")
-            return get_manga_from_mangalivre(manga, chapter, save_pages=False)
+            get_manga_from_mangalivre(manga, chapter, save_pages)
         elif source == "muito_manga":
-            print("Implement this - muito_manga")
+            print(f"Muitomanga - {manga}")
+            get_manga_from_muitomanga(manga, chapter, save_pages)
         else:
             raise Exception("Invalid option")
