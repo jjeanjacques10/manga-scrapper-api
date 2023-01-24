@@ -3,7 +3,7 @@ from flask import Flask, request, send_file
 from flask_cors import CORS
 from utils.manga_utils import get_folder_name
 
-from producer.producer import send_message
+from src.producer.producer import send_message
 
 app = Flask(__name__)
 

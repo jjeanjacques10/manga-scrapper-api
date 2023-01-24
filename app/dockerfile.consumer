@@ -17,9 +17,6 @@ RUN pip install --upgrade pip
 RUN pip install --no-cache-dir --trusted-host pypi.python.org -r requirements.txt
 RUN pip install --ignore-installed six watson-developer-cloud
 
-# Expose port 3000
-EXPOSE 3000
-
 RUN ls -la
 
 # Run the app
