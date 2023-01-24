@@ -1,4 +1,5 @@
 import os
+import logging
 from flask import Flask, request, send_file
 from flask_cors import CORS
 from src.services.manga_service import MangaService
@@ -7,8 +8,12 @@ from utils.manga_utils import get_folder_name
 from src.producer.producer import send_message
 
 app = Flask(__name__)
+CORS(app)
 
 HOST_API = os.environ.get("API_HOST", "http://localhost:3000")
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 
 @app.route("/page", methods=["POST"])
@@ -22,7 +27,7 @@ def save_page():
     # remove characters that are not numbers from page
     page = ''.join(filter(str.isdigit, page))
 
-    print(source, manga, number, page)
+    logger.info(f"{source}, {manga}, {number}, {page}")
 
     if not source or not manga or not number:
         return {"message": "Invalid request"}, 422
@@ -33,7 +38,8 @@ def save_page():
     if not os.path.exists(folder):
         os.makedirs(folder)
 
-    image.save(os.path.join(folder, f"{page}.{'png' if source == 'manga_livre' else 'jpg'}"))
+    image.save(os.path.join(
+        folder, f"{page}.{'png' if source == 'manga_livre' else 'jpg'}"))
     return {
         "message": "Image saved"
     }, 201
@@ -47,7 +53,7 @@ def get_page():
     number = request.args.get("number", None)
     page = request.args.get("page", "1")
 
-    print(source, manga, number, page)
+    logger.info(f"{source}, {manga}, {number}, {page}")
 
     if not source or not manga or not number:
         return {"message": "Invalid request"}, 422
@@ -58,9 +64,11 @@ def get_page():
 
     # try png first then jpg
     try:
-        image = open(os.path.join(folder, f"{page}.{'png' if source == 'manga_livre' else 'jpg'}"), "rb")
+        image = open(os.path.join(
+            folder, f"{page}.{'png' if source == 'manga_livre' else 'jpg'}"), "rb")
     except FileNotFoundError:
-        image  = open(os.path.join(folder, f"{page}.{'jpg' if source == 'manga_livre' else 'png'}"), "rb")
+        image = open(os.path.join(
+            folder, f"{page}.{'jpg' if source == 'manga_livre' else 'png'}"), "rb")
 
     return send_file(image, mimetype='image/jpeg'), 200
 
@@ -72,7 +80,7 @@ def get_all_chapter_pages():
     manga = request.args.get("manga", None)
     number = request.args.get("number", None)
 
-    print(source, manga, number)
+    logger.info(f"{source}, {manga}, {number}")
 
     if not source or not manga or not number:
         return {"message": "Invalid request"}, 422
