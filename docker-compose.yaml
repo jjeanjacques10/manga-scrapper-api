@@ -33,7 +33,6 @@ services:
       - AWS_DEFAULT_REGION=us-east-1
       - SQS_ENDPOINT=http://sqs:4576
   manga_consumer:
-    container_name: manga_consumer
     build:
       context: ./app
       dockerfile: dockerfile.consumer
@@ -43,10 +42,10 @@ services:
     volumes:
       - manga_data:/usr/src/app/mangas
     environment:
-      - AWS_ACCESS_KEY_ID=admin
-      - AWS_SECRET_ACCESS_KEY=admin
+      - AWS_ACCESS_KEY_ID=AKIAWBX4X2G4GA55EVKJ
+      - AWS_SECRET_ACCESS_KEY=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
       - AWS_DEFAULT_REGION=us-east-1
-      - SQS_ENDPOINT=http://sqs:4576
+      - SQS_ENDPOINT=https://sqs.us-east-1.amazonaws.com/416068129208/manga-queue
 
 volumes:
   manga_data:
