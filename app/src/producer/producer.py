@@ -5,7 +5,7 @@ import json
 
 sqs = boto3.resource('sqs', endpoint_url=os.environ.get("SQS_ENDPOINT"))
 
-logger = logging.getLogger()
+logging.basicConfig(level=logging.DEBUG)
 
 def send_message(message):
     # Retrieving a queue by its name
@@ -15,4 +15,4 @@ def send_message(message):
     response = queue.send_message(MessageBody=json.dumps(message))
 
     # The response is not a resource, but gives you a message ID and MD5
-    logger.info("MessageId created: {0}".format(response.get('MessageId')))
+    logging.info("MessageId created: {0}".format(response.get('MessageId')))

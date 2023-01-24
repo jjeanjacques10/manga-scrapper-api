@@ -12,7 +12,7 @@ CORS(app)
 
 HOST_API = os.environ.get("API_HOST", "http://localhost:3000")
 
-logger = logging.getLogger()
+logging.basicConfig(level=logging.DEBUG)
 
 
 @app.route("/page", methods=["POST"])
@@ -26,7 +26,7 @@ def save_page():
     # remove characters that are not numbers from page
     page = ''.join(filter(str.isdigit, page))
 
-    logger.info(f"{source}, {manga}, {number}, {page}")
+    logging.info(f"{source}, {manga}, {number}, {page}")
 
     if not source or not manga or not number:
         return {"message": "Invalid request"}, 422
@@ -52,7 +52,7 @@ def get_page():
     number = request.args.get("number", None)
     page = request.args.get("page", "1")
 
-    logger.info(f"{source}, {manga}, {number}, {page}")
+    logging.info(f"{source}, {manga}, {number}, {page}")
 
     if not source or not manga or not number:
         return {"message": "Invalid request"}, 422
@@ -79,7 +79,7 @@ def get_all_chapter_pages():
     manga = request.args.get("manga", None)
     number = request.args.get("number", None)
 
-    logger.info(f"{source}, {manga}, {number}")
+    logging.info(f"{source}, {manga}, {number}")
 
     if not source or not manga or not number:
         return {"message": "Invalid request"}, 422
