@@ -11,6 +11,7 @@ sqs = boto3.resource('sqs', endpoint_url=os.environ.get("SQS_ENDPOINT"))
 
 queue = sqs.get_queue_by_name(QueueName='manga-queue')
 
+print("Checking for messages...")
 while True:
     for message in queue.receive_messages():
         try:
@@ -19,5 +20,5 @@ while True:
         except Exception as e:
             print(e)
         message.delete()
-    print("Waiting for messages...")
+    #print("Waiting for messages...")
     sleep(5)

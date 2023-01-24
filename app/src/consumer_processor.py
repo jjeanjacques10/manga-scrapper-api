@@ -8,7 +8,7 @@ def process_message(event):
     chapter = str(event.get('chapter', None))
     try:
         manga_service = MangaService()
-        manga_service.get_chapter_from_internet(source, manga, chapter)
+        manga_service.get_chapter_from_internet(source, manga, chapter, True)
         upload_chapter_pages(manga, chapter)
     except Exception as e:
         print(e)
