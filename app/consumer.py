@@ -4,10 +4,9 @@ from time import sleep
 import boto3
 import json
 
-from src.consumer_processor import process_message
+from src.gateway.consumer.consumer_processor import process_message
 
 sqs = boto3.resource('sqs', endpoint_url=os.environ.get("SQS_ENDPOINT"))
-#sqs = boto3.resource('sqs', endpoint_url='http://localhost:4576', region_name='us-east-1', aws_access_key_id='admin', aws_secret_access_key='admin')
 
 queue = sqs.get_queue_by_name(QueueName='manga-queue')
 

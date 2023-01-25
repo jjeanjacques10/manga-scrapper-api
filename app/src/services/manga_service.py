@@ -1,8 +1,8 @@
 import os
-from src.producer.producer import send_message
+from src.gateway.producer.producer_processor import send_message
 from src.services.mangalivre_service import get_manga_from_mangalivre
 from src.services.muitomanga_service import get_manga_from_muitomanga
-from utils.manga_utils import get_folder_name
+from src.utils.manga_utils import get_folder_name
 
 HOST_API = os.environ.get("API_HOST", "http://localhost:3000")
 

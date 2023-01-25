@@ -32,6 +32,7 @@ services:
       - AWS_SECRET_ACCESS_KEY=admin
       - AWS_DEFAULT_REGION=us-east-1
       - SQS_ENDPOINT=http://sqs:4576
+      - API_HOST=http://localhost:3000
   manga_consumer:
     build:
       context: ./app

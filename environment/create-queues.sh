@@ -10,7 +10,7 @@ echo "==================="
 
 aws configure set aws_access_key_id admin
 aws configure set aws_secret_access_key admin
-aws configure set region us-west-1
+aws configure set region us-east-1
 
 echo "create sqs queue"
 echo "==================="
@@ -18,7 +18,7 @@ echo "==================="
 # https://docs.aws.amazon.com/cli/latest/reference/sqs/create-queue.html
 create_queue() {
 	local QUEUE_NAME_TO_CREATE=$1
-	awslocal --endpoint-url=http://localhost:4576 sqs create-queue --queue-name ${QUEUE_NAME_TO_CREATE} --region us-west-1 --attributes VisibilityTimeout=30
+	awslocal --endpoint-url=http://sqs:4576 sqs create-queue --queue-name ${QUEUE_NAME_TO_CREATE} --region us-east-1 --attributes VisibilityTimeout=30
 }
 
 create_queue "manga-queue"
