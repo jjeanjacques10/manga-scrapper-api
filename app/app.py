@@ -3,9 +3,7 @@ import logging
 from flask import Flask, request, send_file
 from flask_cors import CORS
 from src.services.manga_service import MangaService
-from utils.manga_utils import get_folder_name
-
-from src.producer.producer import send_message
+from src.utils.manga_utils import get_folder_name
 
 app = Flask(__name__)
 CORS(app)
@@ -14,10 +12,9 @@ HOST_API = os.environ.get("API_HOST", "http://localhost:3000")
 
 logging.basicConfig(level=logging.DEBUG)
 
-
+"""Save a image to the folder"""
 @app.route("/page", methods=["POST"])
 def save_page():
-    """Save a image to the folder"""
     source = request.form.get("source", None)
     manga = request.form.get("manga", None)
     number = request.form.get("number", None)
@@ -43,10 +40,9 @@ def save_page():
         "message": "Image saved"
     }, 201
 
-
+"""Get a image from the folder"""
 @app.route("/page", methods=["GET"])
 def get_page():
-    """Get a image from the folder"""
     source = request.args.get("source", None)
     manga = request.args.get("manga", None)
     number = request.args.get("number", None)
@@ -71,10 +67,9 @@ def get_page():
 
     return send_file(image, mimetype='image/jpeg'), 200
 
-
+"""Get all pages from a chapter"""
 @app.route("/chapter", methods=["GET"])
 def get_all_chapter_pages():
-    """Get all pages from a chapter"""
     source = request.args.get("source", None)
     manga = request.args.get("manga", None)
     number = request.args.get("number", None)
