@@ -106,11 +106,10 @@ def save_chapter_pages(manga_name, chapter_number, pages):
     if not os.path.exists(folder):
         os.makedirs(folder)
 
-    for page in pages:
+    for page_number, page in enumerate(pages):
         print(f"Downloading {page}")
         response = requests.get(page, headers=headers, data={})
         if response.status_code == 200:
-            page_number = ''.join(filter(str.isdigit, page.split('/')[-1]))
             with open(f"{folder}/{page_number}.jpg", 'wb') as f:
                 f.write(response.content)
         else:
