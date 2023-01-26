@@ -27,7 +27,7 @@ class MangaService:
         for i, img in enumerate(images):
             images[
                 i] = f"{HOST_API}/page?source={source}&manga={manga}&number={chapter}&page={img.split('.')[0]}"
-        return images
+        return self.order_pages(images)
 
     def get_chapter_from_internet(self, source: str, manga: str, chapter: str, save_pages: bool):
         if source == "manga_livre":
@@ -38,3 +38,7 @@ class MangaService:
             get_manga_from_muitomanga(manga, chapter, save_pages)
         else:
             raise Exception("Invalid option")
+
+    def order_pages(self, pages: list):
+        pages.sort(key=lambda x: int(x.split("=").pop().split("_")[0]))
+        return pages
