@@ -3,7 +3,7 @@ import os
 import requests
 import logging
 
-from src.utils.manga_utils import get_folder_name
+from utils.manga_utils import get_folder_name
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)

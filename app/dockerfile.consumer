@@ -13,11 +13,7 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app
 
 # Install dependencies
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir --trusted-host pypi.python.org -r requirements.txt
-RUN pip install --ignore-installed six watson-developer-cloud
-
-RUN ls -la
+RUN pip install --upgrade pip && pip install --no-cache-dir --trusted-host pypi.python.org -r requirements.txt && pip install --ignore-installed six watson-developer-cloud
 
 # Run the app
-CMD [ "python", "./consumer.py" ]
+CMD [ "python", "./app.py", "consumer"]

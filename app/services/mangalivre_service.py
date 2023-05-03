@@ -1,10 +1,9 @@
-import json
 import os
 import re
 
 import requests
 
-from src.utils.manga_utils import get_folder_name
+from utils.manga_utils import get_folder_name
 
 headers = {
     'authority': 'mangalivre.net',
@@ -116,7 +115,7 @@ def save_chapter_pages(manga_name, chapter_number, pages):
             print(f"Erro ao baixar página {page} - " + response.text)
 
 
-def get_manga_from_mangalivre(name, chapter, save_pages=False):
+def get_manga_from_mangalivre(name, chapter, download_pages=False):
     print(f"Searching Manga {name}")
     mangas = search_manga(name)
     if not mangas:
@@ -132,7 +131,7 @@ def get_manga_from_mangalivre(name, chapter, save_pages=False):
     key = get_key(link)
 
     pages = get_page(id_release, key)
-    if save_pages:
+    if download_pages:
         save_chapter_pages(name, chapter, pages)
     else:
         return pages
