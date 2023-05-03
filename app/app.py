@@ -1,102 +1,41 @@
 import os
+import sys
 import logging
-from flask import Flask, request, send_file
+from flask import Flask
 from flask_cors import CORS
-from src.services.manga_service import MangaService
-from src.utils.manga_utils import get_folder_name
+from adapter.queue.consumer import Consumer
 
-app = Flask(__name__)
-CORS(app)
-
-HOST_API = os.environ.get("API_HOST", "http://localhost:3000")
-
-logging.basicConfig(level=logging.DEBUG)
-
-"""Save a image to the folder"""
-@app.route("/page", methods=["POST"])
-def save_page():
-    source = request.form.get("source", None)
-    manga = request.form.get("manga", None)
-    number = request.form.get("number", None)
-    page = request.form.get("page", "1")
-
-    # remove characters that are not numbers from page
-    page = ''.join(filter(str.isdigit, page))
-
-    logging.info(f"{source}, {manga}, {number}, {page}")
-
-    if not source or not manga or not number:
-        return {"message": "Invalid request"}, 422
-
-    image = request.files["image"]
-
-    folder = get_folder_name(manga, number)
-    if not os.path.exists(folder):
-        os.makedirs(folder)
-
-    image.save(os.path.join(
-        folder, f"{page}.{'png' if source == 'manga_livre' else 'jpg'}"))
-    return {
-        "message": "Image saved"
-    }, 201
-
-"""Get a image from the folder"""
-@app.route("/page", methods=["GET"])
-def get_page():
-    source = request.args.get("source", None)
-    manga = request.args.get("manga", None)
-    number = request.args.get("number", None)
-    page = request.args.get("page", "1")
-
-    logging.info(f"{source}, {manga}, {number}, {page}")
-
-    if not source or not manga or not number:
-        return {"message": "Invalid request"}, 422
-
-    folder = get_folder_name(manga, number)
-    if not os.path.exists(folder):
-        return {"message": "Page not found"}, 404
-
-    # try png first then jpg
-    try:
-        image = open(os.path.join(
-            folder, f"{page}.{'png' if source == 'manga_livre' else 'jpg'}"), "rb")
-    except FileNotFoundError:
-        image = open(os.path.join(
-            folder, f"{page}.{'jpg' if source == 'manga_livre' else 'png'}"), "rb")
-
-    return send_file(image, mimetype='image/jpeg'), 200
-
-"""Get all pages from a chapter"""
-@app.route("/chapter", methods=["GET"])
-def get_all_chapter_pages():
-    source = request.args.get("source", None)
-    manga = request.args.get("manga", None)
-    number = request.args.get("number", None)
-
-    logging.info(f"{source}, {manga}, {number}")
-
-    if not source or not manga or not number:
-        return {"message": "Invalid request"}, 422
-
-    mangaService = MangaService()
-
-    images = mangaService.get_chapter_local(source, manga, number)
-
-    if not images:
-        return {"message": "Chapter not found"}, 404
-
-    return {
-        "manga": manga,
-        "chapter": number,
-        "pages": images
-    }, 200
+from adapter.web.routes.page import page_bp
+from adapter.web.routes.chapter import chapter_bp
 
 
-def main():
+def create_app():
+    app = Flask(__name__)
+    CORS(app)
+
+    logging.basicConfig(level=logging.DEBUG)
+
+    app.register_blueprint(page_bp)
+    app.register_blueprint(chapter_bp)
+
     port = int(os.environ.get("PORT", 3000))
     app.run(host="0.0.0.0", port=port, debug=True)
 
 
+def create_consumer():
+    consumer = Consumer()
+    consumer.start()
+
+
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) < 2:
+        print("Usage: python main.py <app|consumer>")
+        sys.exit(1)
+
+    if sys.argv[1] == "app":
+        create_app()
+    elif sys.argv[1] == "consumer":
+        create_consumer()
+    else:
+        print("Invalid argument:", sys.argv[1])
+        sys.exit(1)

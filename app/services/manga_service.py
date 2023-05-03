@@ -1,8 +1,9 @@
 import os
-from src.gateway.producer.producer_processor import send_message
-from src.services.mangalivre_service import get_manga_from_mangalivre
-from src.services.muitomanga_service import get_manga_from_muitomanga
-from src.utils.manga_utils import get_folder_name
+from services.producer_processor import send_message
+
+from services.mangalivre_service import get_manga_from_mangalivre
+from services.muitomanga_service import get_manga_from_muitomanga
+from utils.manga_utils import get_folder_name
 
 HOST_API = os.environ.get("API_HOST", "http://localhost:3000")
 
@@ -29,13 +30,13 @@ class MangaService:
                 i] = f"{HOST_API}/page?source={source}&manga={manga}&number={chapter}&page={img.split('.')[0]}"
         return self.order_pages(images)
 
-    def get_chapter_from_internet(self, source: str, manga: str, chapter: str, save_pages: bool):
+    def get_chapter_from_internet(self, source: str, manga: str, chapter: str, download_pages: bool):
         if source == "manga_livre":
             print(f"Mangalivre - {manga}")
-            get_manga_from_mangalivre(manga, chapter, save_pages)
+            return get_manga_from_mangalivre(manga, chapter, download_pages)
         elif source == "muito_manga":
             print(f"Muitomanga - {manga}")
-            get_manga_from_muitomanga(manga, chapter, save_pages)
+            return get_manga_from_muitomanga(manga, chapter, download_pages)
         else:
             raise Exception("Invalid option")
 

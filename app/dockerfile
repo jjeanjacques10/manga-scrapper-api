@@ -23,4 +23,4 @@ RUN pip install --ignore-installed six watson-developer-cloud
 EXPOSE 3000
 
 # Run the app
-CMD [ "python", "./app.py" ]
+CMD [ "python", "./app.py", "app" ]

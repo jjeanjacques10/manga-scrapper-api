@@ -1,5 +1,5 @@
-from src.services.manga_service import MangaService
-from src.services.save_page_service import upload_chapter_pages
+from services.manga_service import MangaService
+from services.save_page_service import upload_chapter_pages
 
 
 def process_message(event):
