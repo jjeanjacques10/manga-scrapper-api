@@ -2,7 +2,7 @@ name: Deploy AWS EC2
 on:
   push:
     branches:
-      - main
+      - deploy-ec2
 jobs:
   deploy:
     runs-on: ubuntu-latest

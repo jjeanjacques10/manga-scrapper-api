@@ -13,7 +13,7 @@ class MangaService:
     def __init__(self) -> None:
         pass
 
-    def get_chapter_local(self, source: str, manga: str, chapter: str):
+    def get_chapter(self, source: str, manga: str, chapter: str):
         folder = get_folder_name(manga, chapter)
         if not os.path.exists(folder):
             send_message({
@@ -21,7 +21,7 @@ class MangaService:
                 "manga": manga,
                 "chapter": chapter
             })
-            return None
+            return self.get_chapter_from_internet(source, manga, chapter, False)
 
         images = os.listdir(folder)
 
